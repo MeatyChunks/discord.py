@@ -68,7 +68,6 @@ if TYPE_CHECKING:
     from .embeds import Embed
     from .message import Attachment
     from .poll import Poll
-
     from .types import (
         appinfo,
         audit_log,
@@ -2013,6 +2012,33 @@ class HTTPClient:
 
     def delete_stage_instance(self, channel_id: Snowflake, *, reason: Optional[str] = None) -> Response[None]:
         return self.request(Route('DELETE', '/stage-instances/{channel_id}', channel_id=channel_id), reason=reason)
+
+    def get_guild_members_safety_information(
+        self,
+        guild_id: Snowflake,
+        limit: int,
+        sort: int,
+        **kwargs: Any,
+    ) -> Response[member.MemberSearchResults]:
+        # These are just the base keys, other "subqueries" as "safety_signals" are constructed
+        # in `Guild.fetch_safety_information`
+        valid_keys = (
+            'limit',
+            'sort',
+            'or_query',
+            'and_query',
+            'before',
+            'after',
+        )
+        payload = {
+            'limit': limit,
+            'sort': sort,
+        }
+        payload.update({k: v for k, v in kwargs.items() if k in valid_keys})
+        return self.request(
+            Route('POST', '/guilds/{guild_id}/members-search', guild_id=guild_id),
+            json=payload,
+        )
 
     # Guild scheduled event management
 
