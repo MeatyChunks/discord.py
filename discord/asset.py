@@ -361,6 +361,11 @@ class Asset(AssetMixin):
             state,
             url=f'{cls.BASE}/clan-banners/{guild_id}/{banner_hash}.png',
             key=banner_hash,
+    def _from_user_collectible(cls, state: _State, asset: str) -> Self:
+        return cls(
+            state,
+            url=f'{cls.BASE}/assets/collectibles/{asset}/static.png',
+            key=asset,
             animated=False,
         )
 

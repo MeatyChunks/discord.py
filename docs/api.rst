@@ -5778,6 +5778,13 @@ MemberSearch
 .. autoclass:: MemberSearch()
     :members:
 
+UserCollectible
+~~~~~~~~~~~~~~~
+
+.. attributetable:: UserCollectible
+
+.. autoclass:: UserCollectible()
+    :members:
 
 .. _discord_api_data:
 

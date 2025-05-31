@@ -25,7 +25,7 @@ DEALINGS IN THE SOFTWARE.
 from .snowflake import Snowflake
 from .clan import UserClan
 from typing import Literal, Optional, TypedDict
-from typing_extensions import NotRequired
+from typing_extensions import NotRequired, Required
 
 
 class AvatarDecorationData(TypedDict):
@@ -45,6 +45,21 @@ class PartialUser(TypedDict):
 PremiumType = Literal[0, 1, 2, 3]
 
 
+class Collectible(TypedDict):
+    sku_id: Snowflake
+    asset: str
+    label: str
+    expires_at: Optional[str]
+
+
+class NameplateCollectible(Collectible):
+    palette: str
+
+
+class UserCollectibles(TypedDict):
+    nameplate: NameplateCollectible
+
+
 class User(PartialUser, total=False):
     bot: bool
     system: bool
@@ -56,3 +71,4 @@ class User(PartialUser, total=False):
     premium_type: PremiumType
     public_flags: int
     clan: NotRequired[Optional[UserClan]]
+    collectibles: Required[Optional[UserCollectibles]]
